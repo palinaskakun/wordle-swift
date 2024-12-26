@@ -33,7 +33,7 @@ class DatamuseService {
             
             // Check for networking errors
             if let error = error {
-                print("Error fetching from Datamuse:", error)
+                print("Error fetching from Datamuse:", error.localizedDescription)
                 completion(nil)
                 return
             }

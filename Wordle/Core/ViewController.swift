@@ -141,7 +141,7 @@ class ViewController: UIViewController {
 // MARK: - Keyboard Delegate
 extension ViewController: KeyboardViewControllerDelegate {
     func keyboardViewController(_ vc: KeyboardViewController, didTapKey key: String) {
-        if key == "ENTER" {
+        if key == "ENT" {
             handleEnterPressed()
         }
         else if key == "DEL"{

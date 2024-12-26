@@ -22,7 +22,7 @@ class KeyboardViewController: UIViewController, UICollectionViewDelegateFlowLayo
         private let rows: [[String]] = [
             Array("qwertyuiop").map { String($0) },
             Array("asdfghjkl").map { String($0) },
-            ["ENTER"] + Array("zxcvbnm").map { String($0) } + ["DEL"]
+            ["ENT"] + Array("zxcvbnm").map { String($0) } + ["DEL"]
         ]
     
     private let collectionView: UICollectionView = {
