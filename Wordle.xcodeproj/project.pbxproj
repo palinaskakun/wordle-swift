@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F7302D0A2D1D726F001387A1 /* Exceptions for "Wordle" folder in "Wordle" target */ = {
+		F7302D182D1D74A2001387A1 /* Exceptions for "Wordle" folder in "Wordle" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -43,7 +43,7 @@
 		F7302CE42D1D726C001387A1 /* Wordle */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				F7302D0A2D1D726F001387A1 /* Exceptions for "Wordle" folder in "Wordle" target */,
+				F7302D182D1D74A2001387A1 /* Exceptions for "Wordle" folder in "Wordle" target */,
 			);
 			path = Wordle;
 			sourceTree = "<group>";
