@@ -325,7 +325,8 @@ extension ViewController: BoardViewControllerDatasource {
     }
     
     // Two-pass color logic
-    private func computeColorsForGuess(_ guessChars: [Character], answerChars: [Character]) -> [UIColor] {
+    @usableFromInline
+    func computeColorsForGuess(_ guessChars: [Character], answerChars: [Character]) -> [UIColor] {
         var colors = Array(repeating: UIColor.customBorderColor, count: 5)
         var frequency = [Character: Int]()
         
