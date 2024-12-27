@@ -20,6 +20,8 @@ class KeyboardViewController: UIViewController,
     
     weak var delegate: KeyboardViewControllerDelegate?
     
+    
+    
     var letterColorDict: [String: UIColor] = [:]
 
     
@@ -32,6 +34,8 @@ class KeyboardViewController: UIViewController,
     
     private let collectionView: UICollectionView = {
         
+        
+        
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 2
         
@@ -39,6 +43,9 @@ class KeyboardViewController: UIViewController,
                                               collectionViewLayout: layout)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        collectionView.isScrollEnabled = false
+
         
         collectionView.backgroundColor = .clear
 
@@ -55,7 +62,7 @@ class KeyboardViewController: UIViewController,
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
         ])

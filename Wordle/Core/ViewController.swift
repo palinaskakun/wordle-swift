@@ -55,13 +55,21 @@ class ViewController: UIViewController {
             newGameButton.isHidden = true
             currentRow = 0
             currentIndex = 0
+            
             guesses = Array(repeating: Array(repeating: nil, count: 5), count: 6)
+            
+            // 2) Clear key colors as well
+            keyColors = [:]
+            // 3) Update the keyboard so all keys are default color
+            keyboardVC.letterColorDict = keyColors
+            keyboardVC.reloadKeys()
             
             DatamuseService.shared.fetchRandomFiveLetterWord { [weak self] fetchedWord in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     self.answer = fetchedWord ?? "smile"
-                    print("New answer is:", self.answer)
+                    //uncomment for testing
+                    //print("New answer is:", self.answer)
                     self.boardVC.reloadData()
                 }
             }
@@ -84,56 +92,57 @@ class ViewController: UIViewController {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.answer = fetchedWord ?? "smile"
-                print("Answer is:", self.answer)
+                //uncomment for testing
+                //print("Answer is:", self.answer)
                 self.addChildren()
             }
         }
     }
 
     private func addChildren() {
-        // 1) Board as a child
+        // 1) Add the board as a child
         addChild(boardVC)
         boardVC.didMove(toParent: self)
         boardVC.view.translatesAutoresizingMaskIntoConstraints = false
         boardVC.datasource = self
         view.addSubview(boardVC.view)
 
-        // 2) Keyboard as a child
+        // 2) Add the keyboard as a child
         addChild(keyboardVC)
         keyboardVC.didMove(toParent: self)
         keyboardVC.delegate = self
         keyboardVC.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(keyboardVC.view)
 
-        // 3) Board constraints
+        // 3) “New Game” button is already created. Make sure it’s in the view hierarchy
+        view.addSubview(newGameButton)
+        
+        // 4) BOARD constraints (no left/right margin, big height)
         NSLayoutConstraint.activate([
             boardVC.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             boardVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             boardVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            // Give the board about half the screen’s height
-            boardVC.view.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
+            // You can try 0.55, 0.58, 0.6, etc. to see which fits 6 rows best
+            boardVC.view.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.58)
         ])
 
-        // 4) “New Game” button constraints
-        // We'll move setupNewGameButtonConstraints() calls here so
-        // we can place it AFTER we know where the board is
-        view.addSubview(newGameButton) // ensure it's on top
+        // 5) NEW GAME button directly below the board with minimal gap
         NSLayoutConstraint.activate([
-            newGameButton.topAnchor.constraint(equalTo: boardVC.view.bottomAnchor, constant: 16),
+            newGameButton.topAnchor.constraint(equalTo: boardVC.view.bottomAnchor, constant: 4),
             newGameButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             newGameButton.heightAnchor.constraint(equalToConstant: 44),
-            newGameButton.widthAnchor.constraint(equalToConstant: 120),
+            newGameButton.widthAnchor.constraint(equalToConstant: 120)
         ])
 
-        // 5) Keyboard constraints
+        // 6) KEYBOARD just below the button with minimal gap, pinned to bottom
         NSLayoutConstraint.activate([
-            // The keyboard’s top is below the button’s bottom
-            keyboardVC.view.topAnchor.constraint(equalTo: newGameButton.bottomAnchor, constant: 16),
+            keyboardVC.view.topAnchor.constraint(equalTo: newGameButton.bottomAnchor, constant: 4),
             keyboardVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             keyboardVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             keyboardVC.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+
 
     
     // Gameplay
