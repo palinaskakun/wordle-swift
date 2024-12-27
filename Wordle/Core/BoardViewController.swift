@@ -31,6 +31,8 @@ class BoardViewController: UIViewController,
                             UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,
                             UICollectionViewDataSource{
     
+
+
     weak var datasource: BoardViewControllerDatasource?
     
     private let collectionView: UICollectionView = {

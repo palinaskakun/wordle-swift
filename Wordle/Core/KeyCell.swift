@@ -24,7 +24,7 @@ class KeyCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont(name: "Futura-Bold", size: 18)
+        label.font = UIFont(name: "Futura", size: 18)
         return label
     }()
 

@@ -13,10 +13,15 @@ protocol KeyboardViewControllerDelegate: AnyObject {
     )
 }
 
-class KeyboardViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,
-    UICollectionViewDataSource{
+class KeyboardViewController: UIViewController,
+                              UICollectionViewDelegateFlowLayout,
+                              UICollectionViewDelegate,
+                              UICollectionViewDataSource{
     
     weak var delegate: KeyboardViewControllerDelegate?
+    
+    var letterColorDict: [String: UIColor] = [:]
+
     
     /// Each row is now an array of strings.
         private let rows: [[String]] = [
@@ -26,10 +31,13 @@ class KeyboardViewController: UIViewController, UICollectionViewDelegateFlowLayo
         ]
     
     private let collectionView: UICollectionView = {
+        
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 2
+        
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: layout)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView.backgroundColor = .clear
@@ -40,9 +48,9 @@ class KeyboardViewController: UIViewController, UICollectionViewDelegateFlowLayo
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
-        view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -53,6 +61,12 @@ class KeyboardViewController: UIViewController, UICollectionViewDelegateFlowLayo
         ])
         
     }
+    
+    // KeyboardViewController.swift
+    func reloadKeys() {
+        collectionView.reloadData()
+    }
+
     
 }
 
@@ -68,11 +82,33 @@ extension KeyboardViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeyCell.identifier, for: indexPath) as? KeyCell else {
+        
+        guard
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: KeyCell.identifier,
+                for: indexPath
+            ) as? KeyCell else {
             fatalError()
         }
         let key = rows[indexPath.section][indexPath.row]
         cell.configure(with: key)
+        
+        // Lookup the color (if any) from letterColorDict
+                let lower = key.lowercased()
+                
+                // If it's ENT or DEL, skip color logic (or do as you like)
+                if lower == "ent" || lower == "del" {
+                    cell.backgroundColor = .customBorderColor
+                } else {
+                    // For normal letters:
+                    if let color = letterColorDict[lower] {
+                        cell.backgroundColor = color
+                    } else {
+                        // Default background
+                        cell.backgroundColor = .customBackground
+                    }
+                }
+        
         return cell
     }
     
